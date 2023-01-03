@@ -39,29 +39,30 @@ class WolfGoatCabbageQLearning:
 
         ]
 
-    def move_obj(self, banks, obj, towards):
-        pass
-
     def get_next_states(self, starting_state):
         next_states = []
         for action in self.actions:
             next_state = copy.deepcopy(starting_state)
             is_legal = False
+
             if action == 'MOVE_PLAYER_FROM_LEFT_TO_BOAT':
                 if 'P' in next_state[0]:
                     next_state[0].remove('P')
                     next_state[1].append('P')
                     is_legal = True
+
             if action == 'MOVE_PLAYER_FROM_RIGHT_TO_BOAT':
                 if 'P' in next_state[2]:
                     next_state[2].remove('P')
                     next_state[1].append('P')
                     is_legal = True
+
             if action == 'MOVE_PLAYER_FROM_BOAT_TO_LEFT':
                 if len(next_state[1]) == 1 and 'P' in next_state[1]:
                     next_state[1].remove('P')
                     next_state[0].append('P')
                     is_legal = True
+
             if action == 'MOVE_PLAYER_FROM_BOAT_TO_RIGHT':
                 if len(next_state[1]) == 1 and 'P' in next_state[1]:
                     next_state[1].remove('P')
@@ -197,10 +198,6 @@ class WolfGoatCabbageQLearning:
 
     def train(self):
 
-        GAMMA = self.gamma
-        GOAL_STATE = self.goal_state
-        MAX_EPISODES = self.max_episodes
-
         convergence_count = 0
         q_s_a = defaultdict(lambda: 0)
         q_s_a_prec = copy.deepcopy(q_s_a)
@@ -208,11 +205,11 @@ class WolfGoatCabbageQLearning:
         scores = []
         eps_list = []
         rewards = {}
-        while episode <= MAX_EPISODES:
+        while episode <= self.max_episodes:
             initial_state_for_this_episode = self.start_state
             score_per_episode = 0
             print('*** EPISODE '+str(episode)+' ***')
-            while initial_state_for_this_episode != GOAL_STATE:
+            while initial_state_for_this_episode != self.goal_state:
 
                 next_states_for_action = self.get_next_states(
                     initial_state_for_this_episode)
@@ -244,7 +241,7 @@ class WolfGoatCabbageQLearning:
                     m_q_s1 = 0
 
                 q_s_a[str(initial_state_for_this_episode) + "|" +
-                      chosen_next_state] = rewards[str(initial_state_for_this_episode) + "|" + chosen_next_state] + (GAMMA * m_q_s1)
+                      chosen_next_state] = rewards[str(initial_state_for_this_episode) + "|" + chosen_next_state] + (self.gamma * m_q_s1)
                 score_per_episode += q_s_a[str(initial_state_for_this_episode) + "|" +
                                            chosen_next_state]
                 initial_state_for_this_episode = eval(chosen_next_state)
