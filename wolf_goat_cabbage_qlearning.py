@@ -20,10 +20,18 @@ class WolfGoatCabbageQLearning:
         self.epsilon_greedy = epsilon_greedy
 
         self.actions = [
-            'MOVE_GOAT_FROM_LEFT_TO_BOAT', 'MOVE_WOLF_FROM_LEFT_TO_BOAT', 'MOVE_CABBAGE_FROM_LEFT_TO_BOAT',
-            'MOVE_GOAT_FROM_BOAT_TO_LEFT', 'MOVE_WOLF_FROM_BOAT_TO_LEFT', 'MOVE_CABBAGE_FROM_BOAT_TO_LEFT',
-            'MOVE_GOAT_FROM_RIGHT_TO_BOAT', 'MOVE_WOLF_FROM_RIGHT_TO_BOAT', 'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT',
-            'MOVE_GOAT_FROM_BOAT_TO_RIGHT', 'MOVE_WOLF_FROM_BOAT_TO_RIGHT', 'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT',
+            'MOVE_CABBAGE_FROM_LEFT_TO_BOAT',
+            'MOVE_CABBAGE_FROM_BOAT_TO_LEFT',
+            'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT',
+            'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT',
+            'MOVE_GOAT_FROM_LEFT_TO_BOAT',
+            'MOVE_GOAT_FROM_BOAT_TO_LEFT',
+            'MOVE_GOAT_FROM_RIGHT_TO_BOAT',
+            'MOVE_GOAT_FROM_BOAT_TO_RIGHT',
+            'MOVE_WOLF_FROM_LEFT_TO_BOAT',
+            'MOVE_WOLF_FROM_BOAT_TO_LEFT',
+            'MOVE_WOLF_FROM_RIGHT_TO_BOAT',
+            'MOVE_WOLF_FROM_BOAT_TO_RIGHT',
             'MOVE_PLAYER_FROM_BOAT_TO_LEFT',
             'MOVE_PLAYER_FROM_BOAT_TO_RIGHT',
             'MOVE_PLAYER_FROM_LEFT_TO_BOAT',
@@ -187,7 +195,7 @@ class WolfGoatCabbageQLearning:
             return -100
         return 0
 
-    def train(self, verbose=False):
+    def train(self):
 
         GAMMA = self.gamma
         GOAL_STATE = self.goal_state
@@ -197,7 +205,6 @@ class WolfGoatCabbageQLearning:
         q_s_a = defaultdict(lambda: 0)
         q_s_a_prec = copy.deepcopy(q_s_a)
         episode = 1
-        # rd.seed(42)
         scores = []
         eps_list = []
         rewards = {}
@@ -214,8 +221,6 @@ class WolfGoatCabbageQLearning:
                             ] = self.get_reward(next_state_for_action)
                 chosen_next_state = str(rd.choice(
                     next_states_for_action))
-                # print('next_states_for_action')
-                # print(next_states_for_action)
 
                 if self.epsilon_greedy:
                     e = rd.uniform(0, 1)
@@ -263,21 +268,14 @@ class WolfGoatCabbageQLearning:
             eps_list.append(self.epsilon)
             episode += 1
 
-        c = 0
-
-        print(q_s_a)
-
-        print('*** SCORES ***')
-        for score, e in zip(scores, eps_list):
-            print(str(score).replace(".", ",") +
-                  ";"+str(e*100).replace(".", ","))
-        print(self.start_state)
+        # print(q_s_a)
+        solution_steps = [self.start_state]
         next_state = str(self.start_state)
-        while next_state != str(self.goal_state) and c < 100:
+        while next_state != str(self.goal_state):
             candidate_next_list = {x: q_s_a[x] for x in q_s_a.keys() if x.startswith(
                 next_state+"|")}
             m = max(
                 candidate_next_list, key=candidate_next_list.get)
             next_state = m.split("|")[1]
-            print(next_state)
-            c += 1
+            solution_steps.append(next_state)
+        return solution_steps, scores, eps_list
