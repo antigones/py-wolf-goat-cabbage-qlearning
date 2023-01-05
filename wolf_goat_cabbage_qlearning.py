@@ -11,7 +11,8 @@ class RLKey:
         self.k2 = k2
 
     def __hash__(self):
-        return hash((tuple(frozenset(x) for x in self.k1),tuple(frozenset(x) for x in self.k2)))
+        return hash((tuple(frozenset(x) for x in self.k1),
+                tuple(frozenset(x) for x in self.k2)))
 
     def __eq__(self, other):
         return (self.k1, self.k2) == (other.k1, other.k2)
@@ -23,9 +24,8 @@ class RLKey:
 
 class WolfGoatCabbageQLearning:
 
-    def __init__(self, start_state, goal_state, gamma=0.8, max_episodes=50000, epsilon_greedy=True, min_epsilon=0.1, max_epsilon=1.0):
-        #self.start_state = [sorted(x) for x in start_state]
-        #self.goal_state = [sorted(x) for x in goal_state]
+    def __init__(self, start_state, goal_state, gamma=0.8, max_episodes=50000,
+                 epsilon_greedy=True, min_epsilon=0.1, max_epsilon=1.0):
         self.start_state = tuple(set(x) for x in start_state)
         self.goal_state = tuple(set(x) for x in goal_state)
 
@@ -186,10 +186,7 @@ class WolfGoatCabbageQLearning:
                     next_state[1].add('👨‍🌾')
                     is_legal = True
 
-            if is_legal:    
-                # next_state[0] = sorted(next_state[0])
-                # next_state[1] = sorted(next_state[1])
-                # next_state[2] = sorted(next_state[2])
+            if is_legal:
                 next_states.append(next_state)
         return next_states
 
@@ -198,19 +195,19 @@ class WolfGoatCabbageQLearning:
         # GOAT and CABBAGE cannot be left unsupervised together
         if state[2] == self.goal_state[2]:
             return 100
-        if '🐐' in state[0] and '🐺' in state[0] and not '👨‍🌾' in state[0]:
+        if {'🐐', '🐺'} <= state[0] and '👨‍🌾' not in state[0]:
             return -100
-        if '🐐' in state[0] and '🥦' in state[0] and not '👨‍🌾' in state[0]:
+        if {'🐐', '🥦'} <= state[0] and '👨‍🌾' not in state[0]:
             return -100
-        if '🐐' in state[2] and '🐺' in state[2] and not '👨‍🌾' in state[2]:
+        if {'🐐', '🐺'} <= state[2] and '👨‍🌾' not in state[2]:
             return -100
-        if '🐐' in state[2] and '🥦' in state[2] and not '👨‍🌾' in state[2]:
+        if {'🐐', '🥦'} <= state[2] and '👨‍🌾' not in state[2]:
             return -100
         # goat cannot be in the boat alone
-        if '🐐' in state[1] and len(state[1]) == 1:
+        if state[1] == {'🐐'}:
             return -100
         # wolf cannot be in the boat alone
-        if '🐺' in state[1] and len(state[1]) == 1:
+        if state[1] == {'🐺'}:
             return -100
         if len(state[1]) > 2:
             # do not put more than 2 obj in the boat (player and max 1 obj)
@@ -226,15 +223,14 @@ class WolfGoatCabbageQLearning:
         scores = []
         eps_list = []
         rewards = {}
-        while episode <= self.max_episodes:
+        for episode in range(1,self.max_episodes):
             initial_state_for_this_episode = self.start_state
             score_per_episode = 0
             
             print("*** EPISODE {} ***".format(episode))
             while initial_state_for_this_episode != self.goal_state:
 
-                next_states_for_action = self.get_next_states(
-                    initial_state_for_this_episode)
+                next_states_for_action = self.get_next_states(initial_state_for_this_episode)
                 for next_state_for_action in next_states_for_action:
                     k = RLKey(initial_state_for_this_episode, next_state_for_action)
                     rewards[k] = self.get_reward(next_state_for_action)
@@ -247,16 +243,13 @@ class WolfGoatCabbageQLearning:
                         # action with max value from current state
                         # it's ok to randomly choose if every q is 0 because we would max on a full-0 list
                         s_a_list = {x: q_s_a[x] for x in q_s_a.keys() if x.k1 == initial_state_for_this_episode}
-                        if len(s_a_list) > 0:
+                        if len(s_a_list):
                             m = max(s_a_list, key=s_a_list.get)
                             chosen_next_state = m.k2
 
                 q_s1_list = {x: q_s_a[x] for x in q_s_a.keys() if x.k1 == chosen_next_state}
 
-                if len(q_s1_list) > 0:
-                    m_q_s1 = max(q_s1_list.values())
-                else:
-                    m_q_s1 = 0
+                m_q_s1 = max(q_s1_list.values(), default=0)
 
                 k_qsa = RLKey(initial_state_for_this_episode,chosen_next_state)
                 q_s_a[k_qsa] = rewards[k_qsa] + (self.gamma * m_q_s1)
@@ -264,7 +257,7 @@ class WolfGoatCabbageQLearning:
                 initial_state_for_this_episode = chosen_next_state
 
             if q_s_a == q_s_a_prec:
-                if convergence_count > int(10):
+                if convergence_count > 10:
                     print('** CONVERGED **')
                     break
                 else:
@@ -278,7 +271,7 @@ class WolfGoatCabbageQLearning:
 
             scores.append(score_per_episode)
             eps_list.append(self.epsilon)
-            episode += 1
+           
 
         solution_steps = [self.start_state]
         next_state = self.start_state
