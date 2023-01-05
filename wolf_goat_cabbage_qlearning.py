@@ -181,15 +181,10 @@ class WolfGoatCabbageQLearning:
                     next_state[1].append('👨‍🌾')
                     is_legal = True
 
-            if is_legal:
-                print('bs')
-                print(next_state)
-                
+            if is_legal:    
                 next_state[0] = sorted(next_state[0])
                 next_state[1] = sorted(next_state[1])
                 next_state[2] = sorted(next_state[2])
-                print('as')
-                print(next_state)
                 next_states.append(next_state)
         return next_states
 
@@ -283,7 +278,6 @@ class WolfGoatCabbageQLearning:
             eps_list.append(self.epsilon)
             episode += 1
 
-        # print(q_s_a)
         solution_steps = [self.start_state]
         next_state = self.start_state
         while next_state != self.goal_state:
