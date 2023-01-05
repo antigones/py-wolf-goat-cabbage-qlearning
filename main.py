@@ -1,10 +1,11 @@
+
 from wolf_goat_cabbage_qlearning import WolfGoatCabbageQLearning
 
 
 def main():
     wcg_arena = WolfGoatCabbageQLearning(
-        start_state=[['C', 'G', 'P', 'W'], [], []],
-        goal_state=[[], [], ['C', 'G', 'P', 'W']],
+        start_state=[['🥦', '🐐', '👨‍🌾', '🐺'], [], []],
+        goal_state=[[], [], ['👨‍🌾', '🐐', '🥦', '🐺']],
         gamma=0.8,
         max_episodes=1000,
         epsilon_greedy=True)
