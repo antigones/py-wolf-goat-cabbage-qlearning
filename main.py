@@ -7,7 +7,7 @@ def main():
         start_state=[['🥦', '🐐', '👨‍🌾', '🐺'], [], []],
         goal_state=[[], [], ['👨‍🌾', '🐐', '🥦', '🐺']],
         gamma=0.8,
-        max_episodes=1000,
+        max_episodes=100,
         epsilon_greedy=True)
     solution_steps, scores, eps_list = wcg_arena.train()
 
