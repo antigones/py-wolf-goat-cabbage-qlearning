@@ -15,10 +15,9 @@ def main():
     for step in solution_steps:
         print(step)
 
-    score_text = "{score:.2f};{epsilon:.2f}"
     print('*** SCORES ***')
     for score, e in zip(scores, eps_list):
-        print(score_text.format(score=score, epsilon=e))
+        print("{score:.2f};{epsilon:.2f}".format(score=score, epsilon=e))
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ class RLKey:
         self.k2 = k2
 
     def __hash__(self):
-        return hash((str(self.k1),str(self.k2)))
+        return hash((tuple(tuple(x) for x in self.k1),tuple(tuple(x) for x in self.k2)))
 
     def __eq__(self, other):
         return (self.k1, self.k2) == (other.k1, other.k2)
@@ -215,7 +215,7 @@ class WolfGoatCabbageQLearning:
     def train(self):
 
         convergence_count = 0
-        q_s_a = defaultdict(lambda: 0)
+        q_s_a = defaultdict(int)
         q_s_a_prec = copy.deepcopy(q_s_a)
         episode = 1
         scores = []
@@ -224,7 +224,8 @@ class WolfGoatCabbageQLearning:
         while episode <= self.max_episodes:
             initial_state_for_this_episode = self.start_state
             score_per_episode = 0
-            print('*** EPISODE '+str(episode)+' ***')
+            
+            print("*** EPISODE {} ***".format(episode))
             while initial_state_for_this_episode != self.goal_state:
 
                 next_states_for_action = self.get_next_states(
@@ -232,8 +233,7 @@ class WolfGoatCabbageQLearning:
                 for next_state_for_action in next_states_for_action:
                     k = RLKey(initial_state_for_this_episode, next_state_for_action)
                     rewards[k] = self.get_reward(next_state_for_action)
-                chosen_next_state = rd.choice(
-                    next_states_for_action)
+                chosen_next_state = rd.choice(next_states_for_action)
 
                 if self.epsilon_greedy:
                     e = rd.uniform(0, 1)
@@ -270,9 +270,7 @@ class WolfGoatCabbageQLearning:
                 convergence_count = 0
 
             # epsilon update
-            self.epsilon = self.min_epsilon + \
-                (self.max_epsilon - self.min_epsilon) * \
-                np.exp(-self.decay_rate * episode)
+            self.epsilon = self.min_epsilon + (self.max_epsilon - self.min_epsilon) * np.exp(-self.decay_rate * episode)
 
             scores.append(score_per_episode)
             eps_list.append(self.epsilon)
