@@ -58,136 +58,94 @@ class WolfGoatCabbageQLearning:
 
         ]
 
-
+    def move(self, state, what, where_from, where_to):
+        state[where_from].remove(what)
+        state[where_to].add(what)
+        return None
 
     def get_next_states(self, starting_state):
         next_states = []
         for action in self.actions:
             next_state = copy.deepcopy(starting_state)
-            is_legal = False
 
             if action == 'MOVE_PLAYER_FROM_LEFT_TO_BOAT':
                 if '👨‍🌾' in next_state[0]:
-                    next_state[0].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾' ,0 , 1)
 
             if action == 'MOVE_PLAYER_FROM_RIGHT_TO_BOAT':
                 if '👨‍🌾' in next_state[2]:
-                    next_state[2].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 2, 1)
 
             if action == 'MOVE_PLAYER_FROM_BOAT_TO_LEFT':
                 if len(next_state[1]) == 1 and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('👨‍🌾')
-                    next_state[0].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 0)
 
             if action == 'MOVE_PLAYER_FROM_BOAT_TO_RIGHT':
                 if len(next_state[1]) == 1 and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('👨‍🌾')
-                    next_state[2].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 2)
 
             if action == 'MOVE_GOAT_FROM_LEFT_TO_BOAT':
                 if '🐐' in next_state[0] and '👨‍🌾' in next_state[0]:
-                    next_state[0].remove('🐐')
-                    next_state[1].add('🐐')
-                    next_state[0].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 0, 1)
+                    self.move(next_state, '🐐', 0, 1)
 
             if action == 'MOVE_WOLF_FROM_LEFT_TO_BOAT':
                 if '🐺' in next_state[0] and '👨‍🌾' in next_state[0]:
-                    next_state[0].remove('🐺')
-                    next_state[1].add('🐺')
-                    next_state[0].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 0, 1)
+                    self.move(next_state, '🐺', 0, 1)
 
             if action == 'MOVE_CABBAGE_FROM_LEFT_TO_BOAT':
                 if '🥦' in next_state[0] and '👨‍🌾' in next_state[0]:
-                    next_state[0].remove('🥦')
-                    next_state[1].add('🥦')
-                    next_state[0].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 0, 1)
+                    self.move(next_state, '🥦', 0, 1)
 
             if action == 'MOVE_GOAT_FROM_BOAT_TO_LEFT':
                 if '🐐' in next_state[1] and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('🐐')
-                    next_state[0].add('🐐')
-                    next_state[1].remove('👨‍🌾')
-                    next_state[0].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1 ,0)
+                    self.move(next_state, '🐐', 1, 0)
 
             if action == 'MOVE_WOLF_FROM_BOAT_TO_LEFT':
                 if '🐺' in next_state[1] and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('🐺')
-                    next_state[0].add('🐺')
-                    next_state[1].remove('👨‍🌾')
-                    next_state[0].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 0)
+                    self.move(next_state, '🐺', 1, 0)
 
             if action == 'MOVE_CABBAGE_FROM_BOAT_TO_LEFT':
                 if '🥦' in next_state[1] and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('🥦')
-                    next_state[0].add('🥦')
-                    next_state[1].remove('👨‍🌾')
-                    next_state[0].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 0)
+                    self.move(next_state, '🥦', 1, 0)
 
             if action == 'MOVE_GOAT_FROM_BOAT_TO_RIGHT':
                 if '🐐' in next_state[1] and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('🐐')
-                    next_state[2].add('🐐')
-                    next_state[1].remove('👨‍🌾')
-                    next_state[2].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 2)
+                    self.move(next_state, '🐐', 1, 2)
 
             if action == 'MOVE_WOLF_FROM_BOAT_TO_RIGHT':
                 if '🐺' in next_state[1] and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('🐺')
-                    next_state[2].add('🐺')
-                    next_state[1].remove('👨‍🌾')
-                    next_state[2].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 2)
+                    self.move(next_state, '🐺', 1, 2)
 
             if action == 'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT':
                 if '🥦' in next_state[1] and '👨‍🌾' in next_state[1]:
-                    next_state[1].remove('🥦')
-                    next_state[2].add('🥦')
-                    next_state[1].remove('👨‍🌾')
-                    next_state[2].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 1, 2)
+                    self.move(next_state, '🥦', 1, 2)
 
             if action == 'MOVE_GOAT_FROM_RIGHT_TO_BOAT':
                 if '🐐' in next_state[2] and '👨‍🌾' in next_state[2]:
-                    next_state[2].remove('🐐')
-                    next_state[1].add('🐐')
-                    next_state[2].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 2, 1)
+                    self.move(next_state, '🐐', 2, 1)
 
             if action == 'MOVE_WOLF_FROM_RIGHT_TO_BOAT':
                 if '🐺' in next_state[2] and '👨‍🌾' in next_state[2]:
-                    next_state[2].remove('🐺')
-                    next_state[1].add('🐺')
-                    next_state[2].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 2, 1)
+                    self.move(next_state, '🐺', 2, 1)
 
             if action == 'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT':
                 if '🥦' in next_state[2] and '👨‍🌾' in next_state[2]:
-                    next_state[2].remove('🥦')
-                    next_state[1].add('🥦')
-                    next_state[2].remove('👨‍🌾')
-                    next_state[1].add('👨‍🌾')
-                    is_legal = True
+                    self.move(next_state, '👨‍🌾', 2, 1)
+                    self.move(next_state, '🥦', 2, 1)
 
-            if is_legal:
-                next_states.append(next_state)
+            next_states.append(next_state)
+
         return next_states
 
     def get_reward(self, state):
