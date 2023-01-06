@@ -4,10 +4,10 @@ from wolf_goat_cabbage_qlearning import WolfGoatCabbageQLearning
 
 def main():
     wcg_arena = WolfGoatCabbageQLearning(
-        start_state=[['🥦', '🐐', '👨‍🌾', '🐺'], [], []],
-        goal_state=[[], [], ['👨‍🌾', '🐐', '🥦', '🐺']],
+        start_state=[['🥦', '🐐', '⛵', '🐺'], [], []],
+        goal_state=[[], [], ['⛵', '🐐', '🥦', '🐺']],
         gamma=0.8,
-        max_episodes=100,
+        max_episodes=1000,
         epsilon_greedy=True)
     solution_steps, scores, eps_list = wcg_arena.train()
 
