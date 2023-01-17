@@ -162,7 +162,7 @@ class WolfGoatCabbageQLearning:
             return -100
         if {'🐐', '🥦'} <= state[2] and '⛵' not in state[2]:
             return -100
-        return 0
+        return -1
 
     def train(self):
 
@@ -173,6 +173,7 @@ class WolfGoatCabbageQLearning:
         scores = []
         eps_list = []
         rewards = {}
+
         for episode in range(1,self.max_episodes):
             initial_state_for_this_episode = self.start_state
             score_per_episode = 0
@@ -184,6 +185,7 @@ class WolfGoatCabbageQLearning:
                 for next_state_for_action in next_states_for_action:
                     k = RLKey(initial_state_for_this_episode, next_state_for_action)
                     rewards[k] = self.get_reward(next_state_for_action)
+                
                 chosen_next_state = rd.choice(next_states_for_action)
 
                 if self.epsilon_greedy:
