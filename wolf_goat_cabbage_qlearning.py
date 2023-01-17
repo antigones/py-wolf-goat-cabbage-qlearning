@@ -162,9 +162,6 @@ class WolfGoatCabbageQLearning:
             return -100
         if {'🐐', '🥦'} <= state[2] and '⛵' not in state[2]:
             return -100
-        if len(state[1]) > 2:
-            # do not put more than 2 obj in the boat (player and max 1 obj)
-            return -100
         return 0
 
     def train(self):
