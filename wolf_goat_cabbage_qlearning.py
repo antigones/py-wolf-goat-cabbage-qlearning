@@ -168,6 +168,9 @@ class WolfGoatCabbageQLearning:
         # wolf cannot be in the boat alone
         if state[1] == {'🐺'}:
             return -100
+        # cabbage cannot be in the boat alone
+        if state[1] == {'🥦'}:
+            return -100
         if len(state[1]) > 2:
             # do not put more than 2 obj in the boat (player and max 1 obj)
             return -100
