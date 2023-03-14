@@ -64,90 +64,87 @@ class WolfGoatCabbageQLearning:
         state[where_from].remove(what)
         state[where_to].add(what)
 
-    def get_next_states(self, starting_state):
-        next_states = []
-        for action in self.actions:
-            next_state = copy.deepcopy(starting_state)
+    def get_next_state(self, starting_state, action):
 
-            if action == 'MOVE_PLAYER_FROM_LEFT_TO_BOAT':
-                if '⛵' in next_state[0]:
-                    self.move(next_state, '⛵' ,0 , 1)
+        next_state = copy.deepcopy(starting_state)
 
-            if action == 'MOVE_PLAYER_FROM_RIGHT_TO_BOAT':
-                if '⛵' in next_state[2]:
-                    self.move(next_state, '⛵', 2, 1)
+        if action == 'MOVE_PLAYER_FROM_LEFT_TO_BOAT':
+            if '⛵' in next_state[0]:
+                self.move(next_state, '⛵' ,0 , 1)
 
-            if action == 'MOVE_PLAYER_FROM_BOAT_TO_LEFT':
-                if len(next_state[1]) == 1 and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 0)
+        if action == 'MOVE_PLAYER_FROM_RIGHT_TO_BOAT':
+            if '⛵' in next_state[2]:
+                self.move(next_state, '⛵', 2, 1)
 
-            if action == 'MOVE_PLAYER_FROM_BOAT_TO_RIGHT':
-                if len(next_state[1]) == 1 and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 2)
+        if action == 'MOVE_PLAYER_FROM_BOAT_TO_LEFT':
+            if len(next_state[1]) == 1 and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 0)
 
-            if action == 'MOVE_GOAT_FROM_LEFT_TO_BOAT':
-                if '🐐' in next_state[0] and '⛵' in next_state[0]:
-                    self.move(next_state, '⛵', 0, 1)
-                    self.move(next_state, '🐐', 0, 1)
+        if action == 'MOVE_PLAYER_FROM_BOAT_TO_RIGHT':
+            if len(next_state[1]) == 1 and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 2)
 
-            if action == 'MOVE_WOLF_FROM_LEFT_TO_BOAT':
-                if '🐺' in next_state[0] and '⛵' in next_state[0]:
-                    self.move(next_state, '⛵', 0, 1)
-                    self.move(next_state, '🐺', 0, 1)
+        if action == 'MOVE_GOAT_FROM_LEFT_TO_BOAT':
+            if '🐐' in next_state[0] and '⛵' in next_state[0]:
+                self.move(next_state, '⛵', 0, 1)
+                self.move(next_state, '🐐', 0, 1)
 
-            if action == 'MOVE_CABBAGE_FROM_LEFT_TO_BOAT':
-                if '🥦' in next_state[0] and '⛵' in next_state[0]:
-                    self.move(next_state, '⛵', 0, 1)
-                    self.move(next_state, '🥦', 0, 1)
+        if action == 'MOVE_WOLF_FROM_LEFT_TO_BOAT':
+            if '🐺' in next_state[0] and '⛵' in next_state[0]:
+                self.move(next_state, '⛵', 0, 1)
+                self.move(next_state, '🐺', 0, 1)
 
-            if action == 'MOVE_GOAT_FROM_BOAT_TO_LEFT':
-                if '🐐' in next_state[1] and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1 ,0)
-                    self.move(next_state, '🐐', 1, 0)
+        if action == 'MOVE_CABBAGE_FROM_LEFT_TO_BOAT':
+            if '🥦' in next_state[0] and '⛵' in next_state[0]:
+                self.move(next_state, '⛵', 0, 1)
+                self.move(next_state, '🥦', 0, 1)
 
-            if action == 'MOVE_WOLF_FROM_BOAT_TO_LEFT':
-                if '🐺' in next_state[1] and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 0)
-                    self.move(next_state, '🐺', 1, 0)
+        if action == 'MOVE_GOAT_FROM_BOAT_TO_LEFT':
+            if '🐐' in next_state[1] and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1 ,0)
+                self.move(next_state, '🐐', 1, 0)
 
-            if action == 'MOVE_CABBAGE_FROM_BOAT_TO_LEFT':
-                if '🥦' in next_state[1] and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 0)
-                    self.move(next_state, '🥦', 1, 0)
+        if action == 'MOVE_WOLF_FROM_BOAT_TO_LEFT':
+            if '🐺' in next_state[1] and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 0)
+                self.move(next_state, '🐺', 1, 0)
 
-            if action == 'MOVE_GOAT_FROM_BOAT_TO_RIGHT':
-                if '🐐' in next_state[1] and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 2)
-                    self.move(next_state, '🐐', 1, 2)
+        if action == 'MOVE_CABBAGE_FROM_BOAT_TO_LEFT':
+            if '🥦' in next_state[1] and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 0)
+                self.move(next_state, '🥦', 1, 0)
 
-            if action == 'MOVE_WOLF_FROM_BOAT_TO_RIGHT':
-                if '🐺' in next_state[1] and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 2)
-                    self.move(next_state, '🐺', 1, 2)
+        if action == 'MOVE_GOAT_FROM_BOAT_TO_RIGHT':
+            if '🐐' in next_state[1] and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 2)
+                self.move(next_state, '🐐', 1, 2)
 
-            if action == 'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT':
-                if '🥦' in next_state[1] and '⛵' in next_state[1]:
-                    self.move(next_state, '⛵', 1, 2)
-                    self.move(next_state, '🥦', 1, 2)
+        if action == 'MOVE_WOLF_FROM_BOAT_TO_RIGHT':
+            if '🐺' in next_state[1] and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 2)
+                self.move(next_state, '🐺', 1, 2)
 
-            if action == 'MOVE_GOAT_FROM_RIGHT_TO_BOAT':
-                if '🐐' in next_state[2] and '⛵' in next_state[2]:
-                    self.move(next_state, '⛵', 2, 1)
-                    self.move(next_state, '🐐', 2, 1)
+        if action == 'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT':
+            if '🥦' in next_state[1] and '⛵' in next_state[1]:
+                self.move(next_state, '⛵', 1, 2)
+                self.move(next_state, '🥦', 1, 2)
 
-            if action == 'MOVE_WOLF_FROM_RIGHT_TO_BOAT':
-                if '🐺' in next_state[2] and '⛵' in next_state[2]:
-                    self.move(next_state, '⛵', 2, 1)
-                    self.move(next_state, '🐺', 2, 1)
+        if action == 'MOVE_GOAT_FROM_RIGHT_TO_BOAT':
+            if '🐐' in next_state[2] and '⛵' in next_state[2]:
+                self.move(next_state, '⛵', 2, 1)
+                self.move(next_state, '🐐', 2, 1)
 
-            if action == 'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT':
-                if '🥦' in next_state[2] and '⛵' in next_state[2]:
-                    self.move(next_state, '⛵', 2, 1)
-                    self.move(next_state, '🥦', 2, 1)
+        if action == 'MOVE_WOLF_FROM_RIGHT_TO_BOAT':
+            if '🐺' in next_state[2] and '⛵' in next_state[2]:
+                self.move(next_state, '⛵', 2, 1)
+                self.move(next_state, '🐺', 2, 1)
 
-            next_states.append(next_state)
+        if action == 'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT':
+            if '🥦' in next_state[2] and '⛵' in next_state[2]:
+                self.move(next_state, '⛵', 2, 1)
+                self.move(next_state, '🥦', 2, 1)
 
-        return next_states
+        return next_state
 
     def get_reward(self, state):
         # GOAT and WOLF cannot be left unsupervised together
@@ -181,13 +178,10 @@ class WolfGoatCabbageQLearning:
             print("*** EPISODE {episode} ***".format(episode=episode))
             while initial_state_for_this_episode != self.goal_state:
 
-                next_states_for_action = self.get_next_states(initial_state_for_this_episode)
-                for next_state_for_action in next_states_for_action:
-                    k = RLKey(initial_state_for_this_episode, next_state_for_action)
-                    rewards[k] = self.get_reward(next_state_for_action)
-                
-                chosen_next_state = rd.choice(next_states_for_action)
-
+                random_action = rd.choice(self.actions)
+                chosen_next_state = self.get_next_state(initial_state_for_this_episode, random_action)
+                k = RLKey(initial_state_for_this_episode, chosen_next_state)
+                rewards[k] = self.get_reward(chosen_next_state)
                 if self.epsilon_greedy:
                     e = rd.uniform(0, 1)
 
@@ -204,6 +198,7 @@ class WolfGoatCabbageQLearning:
                 m_q_s1 = max(q_s1_list.values(), default=0)
 
                 k_qsa = RLKey(initial_state_for_this_episode,chosen_next_state)
+                
                 q_s_a[k_qsa] = rewards[k_qsa] + (self.gamma * m_q_s1)
                 score_per_episode += q_s_a[k_qsa]
                 initial_state_for_this_episode = chosen_next_state
