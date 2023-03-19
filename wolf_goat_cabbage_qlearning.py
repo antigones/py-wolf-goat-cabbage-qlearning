@@ -180,8 +180,7 @@ class WolfGoatCabbageQLearning:
 
                 random_action = rd.choice(self.actions)
                 chosen_next_state = self.get_next_state(initial_state_for_this_episode, random_action)
-                k = RLKey(initial_state_for_this_episode, chosen_next_state)
-                rewards[k] = self.get_reward(chosen_next_state)
+                
                 if self.epsilon_greedy:
                     e = rd.uniform(0, 1)
 
@@ -197,10 +196,11 @@ class WolfGoatCabbageQLearning:
 
                 m_q_s1 = max(q_s1_list.values(), default=0)
 
-                k_qsa = RLKey(initial_state_for_this_episode,chosen_next_state)
+                k = RLKey(initial_state_for_this_episode, chosen_next_state)
+                rewards[k] = self.get_reward(chosen_next_state)
                 
-                q_s_a[k_qsa] = rewards[k_qsa] + (self.gamma * m_q_s1)
-                score_per_episode += q_s_a[k_qsa]
+                q_s_a[k] = rewards[k] + (self.gamma * m_q_s1)
+                score_per_episode += q_s_a[k]
                 initial_state_for_this_episode = chosen_next_state
 
             if q_s_a == q_s_a_prec:
@@ -226,5 +226,6 @@ class WolfGoatCabbageQLearning:
             candidate_next_list = {x: q_s_a[x] for x in q_s_a.keys() if x.k1 == next_state}
             m = max(candidate_next_list, key=candidate_next_list.get)
             next_state = m.k2
+            # print(q_s_a[m])
             solution_steps.append(next_state)
         return solution_steps, scores, eps_list
