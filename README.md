@@ -16,21 +16,37 @@ Example usage:
 Example solution:
 
     *** SOLUTION ***
-    ({'🐐', '⛵', '🐺', '🥦'}, set(), set())
-    ({'🐺', '🥦'}, {'🐐', '⛵'}, set())
-    ({'🐺', '🥦'}, set(), {'🐐', '⛵'})
+    ({'🐐', '⛵', '🥦', '🐺'}, set(), set())
+    ({'🐺', '🥦'}, {'⛵', '🐐'}, set())
+    ({'🐺', '🥦'}, set(), {'⛵', '🐐'})
     ({'🐺', '🥦'}, {'⛵'}, {'🐐'})
-    ({'⛵', '🐺', '🥦'}, set(), {'🐐'})
-    ({'🐺'}, {'⛵', '🥦'}, {'🐐'})
-    ({'🐺'}, set(), {'🐐', '⛵', '🥦'})
-    ({'🐺'}, {'🐐', '⛵'}, {'🥦'})
-    ({'🐐', '⛵', '🐺'}, set(), {'🥦'})
-    ({'🐐'}, {'⛵', '🐺'}, {'🥦'})
-    ({'🐐'}, set(), {'⛵', '🐺', '🥦'})
+    ({'🐺', '⛵', '🥦'}, set(), {'🐐'})
+    ({'🥦'}, {'🐺', '⛵'}, {'🐐'})
+    ({'🥦'}, set(), {'🐺', '⛵', '🐐'})
+    ({'🥦'}, {'⛵', '🐐'}, {'🐺'})
+    ({'🐐', '⛵', '🥦'}, set(), {'🐺'})
+    ({'🐐'}, {'⛵', '🥦'}, {'🐺'})
+    ({'🐐'}, set(), {'🐺', '⛵', '🥦'})
     ({'🐐'}, {'⛵'}, {'🐺', '🥦'})
-    ({'🐐', '⛵'}, set(), {'🐺', '🥦'})
-    (set(), {'🐐', '⛵'}, {'🐺', '🥦'})
-    (set(), set(), {'🐐', '⛵', '🐺', '🥦'})
+    ({'⛵', '🐐'}, set(), {'🐺', '🥦'})
+    (set(), {'⛵', '🐐'}, {'🐺', '🥦'})
+    (set(), set(), {'🐺', '⛵', '🥦', '🐐'})
+    
+    *** ACTIONS ***
+    MOVE_GOAT_AND_PLAYER_FROM_LEFT_TO_BOAT
+    MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_RIGHT
+    MOVE_PLAYER_FROM_RIGHT_TO_BOAT
+    MOVE_PLAYER_FROM_BOAT_TO_LEFT
+    MOVE_WOLF_AND_PLAYER_FROM_LEFT_TO_BOAT
+    MOVE_WOLF_AND_PLAYER_FROM_BOAT_TO_RIGHT
+    MOVE_GOAT_AND_PLAYER_FROM_RIGHT_TO_BOAT
+    MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_LEFT
+    MOVE_CABBAGE_AND_PLAYER_FROM_LEFT_TO_BOAT
+    MOVE_CABBAGE_AND_PLAYER_FROM_BOAT_TO_RIGHT
+    MOVE_PLAYER_FROM_RIGHT_TO_BOAT
+    MOVE_PLAYER_FROM_BOAT_TO_LEFT
+    MOVE_GOAT_AND_PLAYER_FROM_LEFT_TO_BOAT
+    MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_RIGHT
 
 Parameters:
 
