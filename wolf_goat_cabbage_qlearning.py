@@ -1,11 +1,7 @@
 import copy
 import random as rd
-import math
 import numpy as np
 from collections import defaultdict
-from enum import Enum
-
-
 
 class RLKey:
     def __init__(self, k1, k2):
@@ -13,8 +9,7 @@ class RLKey:
         self.k2 = k2
 
     def __hash__(self):
-        return hash((tuple(frozenset(x) for x in self.k1),
-                tuple(frozenset(x) for x in self.k2)))
+        return hash((tuple(frozenset(x) for x in self.k1), self.k2))
 
     def __eq__(self, other):
         return (self.k1, self.k2) == (other.k1, other.k2)
@@ -41,18 +36,18 @@ class WolfGoatCabbageQLearning:
         self.epsilon_greedy = epsilon_greedy
         
         self.actions = [
-            'MOVE_CABBAGE_FROM_LEFT_TO_BOAT',
-            'MOVE_CABBAGE_FROM_BOAT_TO_LEFT',
-            'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT',
-            'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT',
-            'MOVE_GOAT_FROM_LEFT_TO_BOAT',
-            'MOVE_GOAT_FROM_BOAT_TO_LEFT',
-            'MOVE_GOAT_FROM_RIGHT_TO_BOAT',
-            'MOVE_GOAT_FROM_BOAT_TO_RIGHT',
-            'MOVE_WOLF_FROM_LEFT_TO_BOAT',
-            'MOVE_WOLF_FROM_BOAT_TO_LEFT',
-            'MOVE_WOLF_FROM_RIGHT_TO_BOAT',
-            'MOVE_WOLF_FROM_BOAT_TO_RIGHT',
+            'MOVE_CABBAGE_AND_PLAYER_FROM_LEFT_TO_BOAT',
+            'MOVE_CABBAGE_AND_PLAYER_FROM_BOAT_TO_LEFT',
+            'MOVE_CABBAGE_AND_PLAYER_FROM_RIGHT_TO_BOAT',
+            'MOVE_CABBAGE_AND_PLAYER_FROM_BOAT_TO_RIGHT',
+            'MOVE_GOAT_AND_PLAYER_FROM_LEFT_TO_BOAT',
+            'MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_LEFT',
+            'MOVE_GOAT_AND_PLAYER_FROM_RIGHT_TO_BOAT',
+            'MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_RIGHT',
+            'MOVE_WOLF_AND_PLAYER_FROM_LEFT_TO_BOAT',
+            'MOVE_WOLF_AND_PLAYER_FROM_BOAT_TO_LEFT',
+            'MOVE_WOLF_AND_PLAYER_FROM_RIGHT_TO_BOAT',
+            'MOVE_WOLF_AND_PLAYER_FROM_BOAT_TO_RIGHT',
             'MOVE_PLAYER_FROM_BOAT_TO_LEFT',
             'MOVE_PLAYER_FROM_BOAT_TO_RIGHT',
             'MOVE_PLAYER_FROM_LEFT_TO_BOAT',
@@ -84,62 +79,62 @@ class WolfGoatCabbageQLearning:
             if len(next_state[1]) == 1 and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1, 2)
 
-        if action == 'MOVE_GOAT_FROM_LEFT_TO_BOAT':
+        if action == 'MOVE_GOAT_AND_PLAYER_FROM_LEFT_TO_BOAT':
             if '🐐' in next_state[0] and '⛵' in next_state[0]:
                 self.move(next_state, '⛵', 0, 1)
                 self.move(next_state, '🐐', 0, 1)
 
-        if action == 'MOVE_WOLF_FROM_LEFT_TO_BOAT':
+        if action == 'MOVE_WOLF_AND_PLAYER_FROM_LEFT_TO_BOAT':
             if '🐺' in next_state[0] and '⛵' in next_state[0]:
                 self.move(next_state, '⛵', 0, 1)
                 self.move(next_state, '🐺', 0, 1)
 
-        if action == 'MOVE_CABBAGE_FROM_LEFT_TO_BOAT':
+        if action == 'MOVE_CABBAGE_AND_PLAYER_FROM_LEFT_TO_BOAT':
             if '🥦' in next_state[0] and '⛵' in next_state[0]:
                 self.move(next_state, '⛵', 0, 1)
                 self.move(next_state, '🥦', 0, 1)
 
-        if action == 'MOVE_GOAT_FROM_BOAT_TO_LEFT':
+        if action == 'MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_LEFT':
             if '🐐' in next_state[1] and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1 ,0)
                 self.move(next_state, '🐐', 1, 0)
 
-        if action == 'MOVE_WOLF_FROM_BOAT_TO_LEFT':
+        if action == 'MOVE_WOLF_AND_PLAYER_FROM_BOAT_TO_LEFT':
             if '🐺' in next_state[1] and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1, 0)
                 self.move(next_state, '🐺', 1, 0)
 
-        if action == 'MOVE_CABBAGE_FROM_BOAT_TO_LEFT':
+        if action == 'MOVE_CABBAGE_AND_PLAYER_FROM_BOAT_TO_LEFT':
             if '🥦' in next_state[1] and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1, 0)
                 self.move(next_state, '🥦', 1, 0)
 
-        if action == 'MOVE_GOAT_FROM_BOAT_TO_RIGHT':
+        if action == 'MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_RIGHT':
             if '🐐' in next_state[1] and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1, 2)
                 self.move(next_state, '🐐', 1, 2)
 
-        if action == 'MOVE_WOLF_FROM_BOAT_TO_RIGHT':
+        if action == 'MOVE_WOLF_AND_PLAYER_FROM_BOAT_TO_RIGHT':
             if '🐺' in next_state[1] and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1, 2)
                 self.move(next_state, '🐺', 1, 2)
 
-        if action == 'MOVE_CABBAGE_FROM_BOAT_TO_RIGHT':
+        if action == 'MOVE_CABBAGE_AND_PLAYER_FROM_BOAT_TO_RIGHT':
             if '🥦' in next_state[1] and '⛵' in next_state[1]:
                 self.move(next_state, '⛵', 1, 2)
                 self.move(next_state, '🥦', 1, 2)
 
-        if action == 'MOVE_GOAT_FROM_RIGHT_TO_BOAT':
+        if action == 'MOVE_GOAT_AND_PLAYER_FROM_RIGHT_TO_BOAT':
             if '🐐' in next_state[2] and '⛵' in next_state[2]:
                 self.move(next_state, '⛵', 2, 1)
                 self.move(next_state, '🐐', 2, 1)
 
-        if action == 'MOVE_WOLF_FROM_RIGHT_TO_BOAT':
+        if action == 'MOVE_WOLF_AND_PLAYER_FROM_RIGHT_TO_BOAT':
             if '🐺' in next_state[2] and '⛵' in next_state[2]:
                 self.move(next_state, '⛵', 2, 1)
                 self.move(next_state, '🐺', 2, 1)
 
-        if action == 'MOVE_CABBAGE_FROM_RIGHT_TO_BOAT':
+        if action == 'MOVE_CABBAGE_AND_PLAYER_FROM_RIGHT_TO_BOAT':
             if '🥦' in next_state[2] and '⛵' in next_state[2]:
                 self.move(next_state, '⛵', 2, 1)
                 self.move(next_state, '🥦', 2, 1)
@@ -178,8 +173,7 @@ class WolfGoatCabbageQLearning:
             print("*** EPISODE {episode} ***".format(episode=episode))
             while initial_state_for_this_episode != self.goal_state:
 
-                random_action = rd.choice(self.actions)
-                chosen_next_state = self.get_next_state(initial_state_for_this_episode, random_action)
+                chosen_action = rd.choice(self.actions)
                 
                 if self.epsilon_greedy:
                     e = rd.uniform(0, 1)
@@ -190,17 +184,19 @@ class WolfGoatCabbageQLearning:
                         s_a_list = {x: q_s_a[x] for x in q_s_a.keys() if x.k1 == initial_state_for_this_episode}
                         if len(s_a_list):
                             m = max(s_a_list, key=s_a_list.get)
-                            chosen_next_state = m.k2
+                            chosen_action = m.k2
 
+                chosen_next_state = self.get_next_state(initial_state_for_this_episode, chosen_action)
                 q_s1_list = {x: q_s_a[x] for x in q_s_a.keys() if x.k1 == chosen_next_state}
 
                 m_q_s1 = max(q_s1_list.values(), default=0)
 
-                k = RLKey(initial_state_for_this_episode, chosen_next_state)
+                k = RLKey(initial_state_for_this_episode, chosen_action)
                 rewards[k] = self.get_reward(chosen_next_state)
                 
                 q_s_a[k] = rewards[k] + (self.gamma * m_q_s1)
                 score_per_episode += q_s_a[k]
+                # score_per_episode += rewards[k]
                 initial_state_for_this_episode = chosen_next_state
 
             if q_s_a == q_s_a_prec:
@@ -215,17 +211,18 @@ class WolfGoatCabbageQLearning:
 
             # epsilon update
             self.epsilon = self.min_epsilon + (self.max_epsilon - self.min_epsilon) * np.exp(-self.decay_rate * episode)
-
             scores.append(score_per_episode)
             eps_list.append(self.epsilon)
            
 
         solution_steps = [self.start_state]
         next_state = self.start_state
+        actions = []
         while next_state != self.goal_state:
             candidate_next_list = {x: q_s_a[x] for x in q_s_a.keys() if x.k1 == next_state}
             m = max(candidate_next_list, key=candidate_next_list.get)
-            next_state = m.k2
+            next_state = self.get_next_state(next_state, m.k2)
             # print(q_s_a[m])
+            actions.append(m.k2)
             solution_steps.append(next_state)
-        return solution_steps, scores, eps_list
+        return solution_steps, actions, scores, eps_list
