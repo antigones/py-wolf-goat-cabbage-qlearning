@@ -11,7 +11,7 @@ Example usage:
         gamma=0.8,
         max_episodes=1000,
         epsilon_greedy=True)
-    solution_steps, scores, eps_list = wcg_arena.train()
+    solution_steps, actions, scores, eps_list = wcg_arena.train()
 
 Example solution:
 
@@ -31,7 +31,7 @@ Example solution:
     ({'⛵', '🐐'}, set(), {'🐺', '🥦'})
     (set(), {'⛵', '🐐'}, {'🐺', '🥦'})
     (set(), set(), {'🐺', '⛵', '🥦', '🐐'})
-    
+
     *** ACTIONS ***
     MOVE_GOAT_AND_PLAYER_FROM_LEFT_TO_BOAT
     MOVE_GOAT_AND_PLAYER_FROM_BOAT_TO_RIGHT
