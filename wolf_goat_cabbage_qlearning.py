@@ -170,6 +170,7 @@ class WolfGoatCabbageQLearning:
             initial_state_for_this_episode = self.start_state
             score_per_episode = 0
             
+            
             print("*** EPISODE {episode} ***".format(episode=episode))
             while initial_state_for_this_episode != self.goal_state:
 
@@ -195,8 +196,8 @@ class WolfGoatCabbageQLearning:
                 rewards[k] = self.get_reward(chosen_next_state)
                 
                 q_s_a[k] = rewards[k] + (self.gamma * m_q_s1)
-                score_per_episode += q_s_a[k]
-                # score_per_episode += rewards[k]
+                # score_per_episode += q_s_a[k]
+                score_per_episode += rewards[k]
                 initial_state_for_this_episode = chosen_next_state
 
             if q_s_a == q_s_a_prec:
