@@ -58,7 +58,7 @@ Parameters:
     - min_epsilon=0.1
     - max_epsilon=1.0
 
-Example graph for cumulative discounted reward and epsilon value per episode:
+Example graph for total reward and epsilon value per episode:
 
 ![Reward/epsilon per episode](/images/reward_epsilon.png)
 
